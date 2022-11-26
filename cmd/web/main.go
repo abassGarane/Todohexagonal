@@ -12,6 +12,7 @@ import (
 	"github.com/abassGarane/todos/domain"
 	"github.com/abassGarane/todos/ports/api/rest"
 	"github.com/abassGarane/todos/ports/repository/mysql"
+	"github.com/abassGarane/todos/ports/repository/postgres"
 	"github.com/abassGarane/todos/ports/repository/redis"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -38,6 +39,13 @@ func chooseRepository(ctx context.Context) domain.TodoRepository {
 	case "mysql":
 		mysqlURL := os.Getenv("MYSQL_URL")
 		repo, err := mysql.NewMysqlRepository(mysqlURL, ctx)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return repo
+	case "postgres":
+		postgresURL := os.Getenv("POSTGRES_URL")
+		repo, err := postgres.NewPostgresRepository(postgresURL, ctx)
 		if err != nil {
 			log.Fatal(err)
 		}
