@@ -1,5 +1,6 @@
 ## Hexagonal Architechture base Todo Web application.
 ___
+![Hexagonal Architechture](https://en.wikipedia.org/wiki/File:Hexagonal_Architecture.svg)
 ### Requirements
 ___
 - Environmental Variables
