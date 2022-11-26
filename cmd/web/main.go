@@ -11,6 +11,7 @@ import (
 
 	"github.com/abassGarane/todos/domain"
 	"github.com/abassGarane/todos/ports/api/rest"
+	"github.com/abassGarane/todos/ports/repository/mysql"
 	"github.com/abassGarane/todos/ports/repository/redis"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -30,6 +31,13 @@ func chooseRepository(ctx context.Context) domain.TodoRepository {
 	case "redis":
 		redisURL := os.Getenv("REDIS_URL")
 		repo, err := redis.NewRedisRepository(redisURL, ctx)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return repo
+	case "mysql":
+		mysqlURL := os.Getenv("MYSQL_URL")
+		repo, err := mysql.NewMysqlRepository(mysqlURL, ctx)
 		if err != nil {
 			log.Fatal(err)
 		}

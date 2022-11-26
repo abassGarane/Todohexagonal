@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/abassGarane/todos/domain"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/pkg/errors"
 )
 
