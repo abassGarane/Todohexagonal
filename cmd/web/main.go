@@ -6,11 +6,13 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 	"time"
 
 	"github.com/abassGarane/todos/domain"
 	"github.com/abassGarane/todos/ports/api/rest"
+	"github.com/abassGarane/todos/ports/repository/mongodb"
 	"github.com/abassGarane/todos/ports/repository/mysql"
 	"github.com/abassGarane/todos/ports/repository/postgres"
 	"github.com/abassGarane/todos/ports/repository/redis"
@@ -46,6 +48,15 @@ func chooseRepository(ctx context.Context) domain.TodoRepository {
 	case "postgres":
 		postgresURL := os.Getenv("POSTGRES_URL")
 		repo, err := postgres.NewPostgresRepository(postgresURL, ctx)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return repo
+	case "mongo":
+		mongoURL := os.Getenv("MONGO_URL")
+		mongoDB := os.Getenv("MONGO_DB")
+		timeOut, _ := strconv.Atoi(os.Getenv("MONGO_TIMEOUT"))
+		repo, err := mongodb.NewMongoRepository(mongoURL, mongoDB, ctx, timeOut)
 		if err != nil {
 			log.Fatal(err)
 		}
