@@ -45,9 +45,11 @@ func (h todoHandler) Post(c *fiber.Ctx) error {
 			"message": "Body Must be non-null",
 		})
 	}
+	fmt.Println(string(body))
 	// Temporarily using json only serializer
 	t := &json.Todo{}
 	todo, err := t.Decode(body)
+	fmt.Println(todo)
 	if err != nil {
 		return c.Status(fiber.ErrInternalServerError.Code).JSON(fiber.Map{
 			"message": fiber.ErrInternalServerError.Message,
